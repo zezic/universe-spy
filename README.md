@@ -8,7 +8,10 @@
 
 ## Configure
 
-Edit `parts.txt`
+    cp parts.txt.example parts.txt
+    cp config.txt.example config.txt
+
+Edit `parts.txt` and `config.txt`
 
 ## Run
 
