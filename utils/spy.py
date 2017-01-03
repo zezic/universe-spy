@@ -3,7 +3,17 @@ from datetime import datetime
 from threading import Thread
 from tinydb import TinyDB, Query
 from termcolor import colored
-INTERVAL = 160  # seconds
+from random import randint
+import os
+
+INTERVAL = 360  # seconds
+
+config = open(os.path.join("config.txt"))
+settings = config.readlines()
+for setting in settings:
+    if "INTERVAL" in setting:
+        setting = setting.split("=")[1].strip()
+        INTERVAL = int(setting)
 
 from .parser import get_price
 
@@ -36,7 +46,7 @@ def spy_on_product(product):
             print("price still at {0}.".format(old_price))
         db.update({"snaps": snaps}, Product.md5 == product.get("md5"))
     else:
-        time_left = INTERVAL - elapsed_time
+        time_left = INTERVAL - elapsed_time + randint(60, 120)
         print(" * {0} seconds until next check for {1}".format(time_left, product_data.get("name")))
         sleep(time_left)
     spy_on_product(product)

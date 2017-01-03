@@ -6,7 +6,7 @@ function drawCharts(products) {
     var snaps = [];
     for (let snap of product.snaps) {
       snaps.push({
-        x: new Date(snap.created_at),
+        x: moment.unix(snap.created_at),
         y: snap.price
       })
     }
@@ -48,7 +48,6 @@ function drawCharts(products) {
               var price = value.split(",")[1];
               var time = value.split(",")[0];
               price = price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")
-              console.log(time);
               time = moment.unix(time).format("HH:mm");
               return "<span>" + price + " руб.</span>"  + "<br>" + time;
             }
