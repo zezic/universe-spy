@@ -6,8 +6,11 @@ def get_active_products():
     products = []
     for url in urls:
         url = url.strip()
-        products.append({
-            "md5": md5(url.encode("utf-8")).hexdigest(),
-            "url": url
-        })
+        if url:
+            products.append({
+                "md5": md5(url.encode("utf-8")).hexdigest(),
+                "url": url
+            })
+        else:
+            print(" ! Wrong URL:", url)
     return products

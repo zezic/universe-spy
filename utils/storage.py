@@ -3,6 +3,7 @@ from .parser import get_name, get_price
 from datetime import datetime
 
 def init_products(db, products):
+    db.table("_default").clear_cache()
     print("")
     for product in products:
         Product = Query()

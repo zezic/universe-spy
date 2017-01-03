@@ -20,6 +20,7 @@ from .parser import get_price
 db = TinyDB('db.json')
 
 def spy_on_product(product):
+    db.table("_default").clear_cache()
     Product = Query()
     product_data = db.search(Product.md5 == product.get("md5"))[0]
     snaps = product_data.get("snaps")
