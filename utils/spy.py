@@ -2,9 +2,13 @@ from time import sleep
 from datetime import datetime
 from threading import Thread
 from tinydb import TinyDB, Query
+from tinyrecord import transaction
 from termcolor import colored
 from random import randint
 import os
+
+from .parser import get_price
+from .storage import table
 
 INTERVAL = 360  # seconds
 
@@ -15,14 +19,13 @@ for setting in settings:
         setting = setting.split("=")[1].strip()
         INTERVAL = int(setting)
 
-from .parser import get_price
-
-db = TinyDB('db.json')
 
 def spy_on_product(product):
-    db.table("_default").clear_cache()
+    table.clear_cache()
+
     Product = Query()
-    product_data = db.search(Product.md5 == product.get("md5"))[0]
+    product_data = table.search(Product.md5 == product.get("md5"))[0]
+
     snaps = product_data.get("snaps")
     last_snap = product_data.get("snaps")[-1]
     old_price = last_snap.get("price")
@@ -45,7 +48,8 @@ def spy_on_product(product):
                 "updated_at": round(datetime.now().timestamp())
             })
             print("price still at {0}.".format(old_price))
-        db.update({"snaps": snaps}, Product.md5 == product.get("md5"))
+        with transaction(table) as tr:
+            tr.update({"snaps": snaps}, Product.md5 == product.get("md5"))
     else:
         time_left = INTERVAL - elapsed_time + randint(60, 120)
         print(" * {0} seconds until next check for {1}".format(time_left, product_data.get("name")))

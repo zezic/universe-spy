@@ -1,13 +1,17 @@
-from tinydb import Query
+from tinydb import TinyDB, Query
 from .parser import get_name, get_price
 from datetime import datetime
+from tinyrecord import transaction
 
-def init_products(db, products):
-    db.table("_default").clear_cache()
+db = TinyDB('db.json')
+table = db.table('_default')
+
+def init_products(products):
+    table.clear_cache()
     print("")
     for product in products:
         Product = Query()
-        if not db.search(Product.md5 == product.get("md5")):
+        if not table.search(Product.md5 == product.get("md5")):
             print(" * Found new product:", )
             url = product.get("url")
             print("   URL:", url)
@@ -23,7 +27,9 @@ def init_products(db, products):
                     "price": price
                 }]
             })
-            db.insert(product)
+
+            with transaction(table) as tr:
+                tr.insert(product)
             print("")
     print(" * Spying on", len(products), "products...")
     print("")
