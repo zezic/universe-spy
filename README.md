@@ -8,7 +8,7 @@
 
 ## Configure
 
-Edit `parts.txt` and `utils/spy.py` (line 6)
+Edit `parts.txt`
 
 ## Run
 
