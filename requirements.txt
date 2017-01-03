@@ -1,0 +1,5 @@
+flask
+tinydb
+termcolor
+requests
+lxml
