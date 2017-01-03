@@ -47,6 +47,7 @@ function drawCharts(products) {
             tooltipFnc: function(meta, value) {
               var price = value.split(",")[1];
               var time = value.split(",")[0];
+              time = parseInt(time)/1000;
               price = price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")
               time = moment.unix(time).format("HH:mm");
               return "<span>" + price + " руб.</span>"  + "<br>" + time;
