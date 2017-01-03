@@ -20,7 +20,6 @@ def index():
 
 @app.route("/data")
 def data():
-    table.clear_cache()
     products = []
     for product in active_products:
         Product = Query()

@@ -2,12 +2,13 @@ from tinydb import TinyDB, Query
 from .parser import get_name, get_price
 from datetime import datetime
 from tinyrecord import transaction
+from tinydb_smartcache import SmartCacheTable
 
 db = TinyDB('db.json')
+db.table_class = SmartCacheTable
 table = db.table('_default')
 
 def init_products(products):
-    table.clear_cache()
     print("")
     for product in products:
         Product = Query()

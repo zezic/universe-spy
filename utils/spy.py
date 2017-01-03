@@ -21,7 +21,6 @@ for setting in settings:
 
 
 def spy_on_product(product):
-    table.clear_cache()
 
     Product = Query()
     product_data = table.search(Product.md5 == product.get("md5"))[0]

@@ -1,6 +1,7 @@
 flask
 tinydb
 tinyrecord
+tinydb-smartcache
 termcolor
 requests
 lxml
